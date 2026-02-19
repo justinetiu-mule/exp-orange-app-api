@@ -1,0 +1,24 @@
+#HTTP Listener Configuration
+http:
+  port: "8080"
+  timeout: "60000"
+  connectionIdleTimeout: "60000"
+  
+#Sales Process API HTTP Request Configuration
+prc-sales-api:
+  http:
+    host: "localhost"
+    port: "8081"
+    timeout: "60000"
+    connectionIdleTimeout: "60000"
+    clientId: "![]"
+    clientSecret: "![]"
+    path:
+      base: "/api"
+      createSales: "/sales"
+      retrieveSales: "/sales/{transactionId}"
+    
+#Pre-Defined Parameters
+app:
+  name: "exp-orange-app-api"
+source: "Orange App"

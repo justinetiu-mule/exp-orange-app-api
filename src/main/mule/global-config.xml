@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="exp-orange-app-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${http.port}" readTimeout="${http.timeout}" connectionIdleTimeout="${http.connectionIdleTimeout}"/>
+    </http:listener-config>
+    <apikit:config name="exp-orange-app-api-config" api="resource::3c38628b-6c49-4cdb-988a-080399b4f1c9:exp-orange-app-api:1.0.0:raml:zip:exp-orange-app-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="995b066c-f18c-4118-b09e-7cd0decf47fa" file="properties/${env}-properties.yaml" key="${encryption.key}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="9212dac3-ef6a-4cde-9d78-94a0a5443453" file="properties/${env}-properties.yaml" />
+	<configuration doc:name="Configuration" doc:id="786e4f2b-abd5-4c7b-bfe3-0d3bfeb1e7b5" defaultErrorHandler-ref="global-error-handler" />
+	<http:request-config name="Sales_Process_API_HTTP_Request_Config" doc:name="HTTP Request config" doc:id="e43552ce-495c-4ffe-8645-0be46fe2b5e6" requestStreamingMode="ALWAYS" basePath="${prc-sales-api.http.path.base}" sendCorrelationId="ALWAYS" responseTimeout="${prc-sales-api.http.timeout}">
+		<http:request-connection host="${prc-sales-api.http.host}" port="${prc-sales-api.http.port}" connectionIdleTimeout="${prc-sales-api.http.connectionIdleTimeout}" />
+		<http:default-headers >
+			<http:default-header key="client_id" value="${secure::prc-sales-api.http.clientId}" />
+			<http:default-header key="client_secret" value="${secure::prc-sales-api.http.clientSecret}" />
+		</http:default-headers>
+	
+</http:request-config>
+</mule>

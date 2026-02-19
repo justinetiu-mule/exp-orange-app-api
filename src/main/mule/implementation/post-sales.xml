@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="post-sales-sub-flow" doc:id="802ae0ce-85ed-424c-b520-7f697113c1d5" >
+		<ee:transform doc:name="Map Request Payload to Sales Creation Payload" doc:id="59718f89-add7-4dd0-a509-6e02cb9dd35c" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="dataweave/salesCreationPayload.dwl" variableName="salesCreationPayload" />
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Before Create Sales HTTP Request" doc:id="3866d7e8-de56-4a89-a56b-f29b3088a3d9" message='#[output application/json&#10;---&#10;{&#10;	message: "Before Create Sales HTTP Request",&#10;	correlationId: vars.correlationId,&#10;	appName: vars.appName,&#10;	data: {&#10;		transactionId: vars.transactionId&#10;	}&#10;}]' />
+		<http:request doc:name=" Create Sales HTTP Request" doc:id="de635476-40ce-4ed0-9260-ea760f8a3960" config-ref="Sales_Process_API_HTTP_Request_Config" method="POST" path="${prc-sales-api.http.path.createSales}" sendCorrelationId="ALWAYS" correlationId="#[vars.correlationId]" >
+			<http:body ><![CDATA[#[vars.salesCreationPayload default {}]]]></http:body>
+		</http:request>
+		<logger level="INFO" doc:name="After Create Sales HTTP Request" doc:id="e5724f5d-bc27-4312-8a97-4b4165d39e6c" message='#[output application/json&#10;---&#10;{&#10;	message: "Before Create Sales HTTP Request",&#10;	correlationId: vars.correlationId,&#10;	appName: vars.appName,&#10;	data: {&#10;		transactionId: vars.transactionId&#10;	}&#10;}]' />
+		<ee:transform doc:name="Set JSON Response Payload" doc:id="8ab6685c-ebca-4f43-a4d0-d5da9ada22c1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
