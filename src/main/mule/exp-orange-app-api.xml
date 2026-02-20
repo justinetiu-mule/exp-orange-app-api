@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <flow name="exp-orange-app-api-main">
+    <flow name="exp-orange-app-api-main" doc:id="ffc74557-3958-48fb-b3a6-b9396f986dfb">
         <http:listener config-ref="exp-orange-app-api-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
@@ -52,7 +52,7 @@ output application/json
             </on-error-propagate>
         </error-handler>
     </flow> -->
-    <flow name="get:\sales\(transactionId):exp-orange-app-api-config">
+    <flow name="get:\sales\(transactionId):exp-orange-app-api-config" doc:id="569398bf-54d1-4ff0-bcc9-07fb080f3a52">
 		<ee:transform doc:name="Set transactionId Variable" doc:id="a87419cc-65b7-4214-b55b-37a2f1735dac" >
 			<ee:variables >
 				<ee:set-variable variableName="transactionId" ><![CDATA[%dw 2.0
@@ -65,7 +65,7 @@ attributes.uriParams.transactionId]]></ee:set-variable>
 		<flow-ref doc:name="get-sales-sub-flow" doc:id="7beeb162-4475-4eba-8c9d-37dd95d94cf4" name="get-sales-sub-flow" />
 		<logger level="INFO" doc:name="End of Retrieve Sales Details Flow" doc:id="134e212b-ce56-405b-aea4-563e61a42b01" message='#[output application/json&#10;---&#10;{&#10;	message: "End of Retrieve Sales Details Flow",&#10;	correlationId: vars.correlationId,&#10;	appName: vars.appName,&#10;	data: {&#10;		transactionId: vars.transactionId&#10;	}&#10;}]' />
     </flow>
-    <flow name="post:\sales:application\json:exp-orange-app-api-config">
+    <flow name="post:\sales:application\json:exp-orange-app-api-config" doc:id="0a52b07a-7f68-4ac1-8fe0-aa2816f3d1df">
 		<ee:transform doc:name="Set transactionId and requestPayload Variables" doc:id="6944e17d-3134-43f4-8202-eac1fd195228" >
 			<ee:message />
 			<ee:variables >
