@@ -1,18 +1,22 @@
+#API Autodiscovery
+api:
+  id: "20750685"
+
 #HTTP Listener Configuration
 http:
-  port: "8080"
+  port: "8081"
   timeout: "60000"
   connectionIdleTimeout: "60000"
   
 #Sales Process API HTTP Request Configuration
 prc-sales-api:
   http:
-    host: "localhost"
-    port: "8081"
+    host: "hrtg-prc-sales-api-6ckyai.5sc6y6-1.usa-e2.cloudhub.io"
+    port: "443"
     timeout: "60000"
     connectionIdleTimeout: "60000"
-    clientId: "![]"
-    clientSecret: "![]"
+    clientId: "![Q7SMH0l1XpibtW8PXX+V+p4kPEkzpiHshalWBT1ak47nOD++a7RT5w==]"
+    clientSecret: "![u2BCxh9pUWnL6ubVMJfKOhnfXqS7zsdiWe3kskN+Zdblph770rz0Aw==]"
     path:
       base: "/api"
       createSales: "/sales"
